@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+yfinance
+mcp[cli]
+httpx
+starlette
+pandas
+numpy

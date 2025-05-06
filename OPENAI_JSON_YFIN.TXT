@@ -1,0 +1,238 @@
+openapi: 3.1.0
+info:
+  title: YFIN Financial Data API
+  description: A FastAPI server providing financial data from Yahoo Finance including balance sheets, income statements, cash flows, and market data.
+  version: 1.0.0
+servers:
+  - url: https://yfin.hosting.tigzig.com
+    description: Production server
+paths:
+  /get-balance-sheet/:
+    get:
+      operationId: getBalanceSheet
+      summary: Get annual balance sheet data for multiple tickers
+      description: Fetches balance sheet data for the specified tickers and returns it in a pipe-delimited text format
+      parameters:
+        - name: tickers
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Comma-separated list of stock ticker symbols
+      responses:
+        '200':
+          description: Successful response with balance sheet data
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: Pipe-delimited text containing balance sheet data for all tickers
+
+  /get-income-statement/:
+    get:
+      operationId: getIncomeStatement
+      summary: Get annual income statement data for multiple tickers
+      description: Fetches income statement data for the specified tickers and returns it in a pipe-delimited text format
+      parameters:
+        - name: tickers
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Comma-separated list of stock ticker symbols
+      responses:
+        '200':
+          description: Successful response with income statement data
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: Pipe-delimited text containing income statement data for all tickers
+
+  /get-cash-flow/:
+    get:
+      operationId: getCashFlow
+      summary: Get cash flow statement data for multiple tickers
+      description: Fetches cash flow statement data for the specified tickers and returns it in a pipe-delimited text format
+      parameters:
+        - name: tickers
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Comma-separated list of stock ticker symbols
+      responses:
+        '200':
+          description: Successful response with cash flow data
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: Pipe-delimited text containing cash flow data for all tickers
+
+  /get-quarterly-income-statement/:
+    get:
+      operationId: getQuarterlyIncomeStatement
+      summary: Get quarterly income statement data for multiple tickers
+      description: Fetches quarterly income statement data for the specified tickers and returns it in a pipe-delimited text format
+      parameters:
+        - name: tickers
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Comma-separated list of stock ticker symbols
+      responses:
+        '200':
+          description: Successful response with quarterly income statement data
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: Pipe-delimited text containing quarterly income statement data for all tickers
+
+  /get-adj-close/:
+    get:
+      operationId: getAdjustedClose
+      summary: Get adjusted closing prices for multiple tickers
+      description: Fetches adjusted closing prices for the specified tickers over a given date range
+      parameters:
+        - name: tickers
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Comma-separated list of stock ticker symbols
+        - name: start_date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+          description: Start date in YYYY-MM-DD format
+        - name: end_date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+          description: End date in YYYY-MM-DD format
+      responses:
+        '200':
+          description: Successful response with adjusted closing prices
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    type: number
+                description: JSON object with dates as keys and ticker prices as values
+
+  /get-market-data/:
+    get:
+      operationId: getMarketData
+      summary: Get market data for multiple tickers
+      description: Fetches market capitalization, free float shares, and total shares outstanding for the specified tickers
+      parameters:
+        - name: tickers
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Comma-separated list of stock ticker symbols
+      responses:
+        '200':
+          description: Successful response with market data
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties:
+                    market_cap:
+                      type: number
+                      description: Market capitalization
+                    free_float:
+                      type: number
+                      description: Number of free float shares
+                    total_shares_outstanding:
+                      type: number
+                      description: Total number of shares outstanding
+                    error:
+                      type: string
+                      description: Error message if any
+
+  /get-all-prices/:
+    get:
+      operationId: getAllPrices
+      summary: Get all price data for multiple tickers
+      description: Fetches open, high, low, close, adjusted close, and volume data for the specified tickers over a given date range
+      parameters:
+        - name: tickers
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Comma-separated list of stock ticker symbols
+        - name: start_date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+          description: Start date in YYYY-MM-DD format
+        - name: end_date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+          description: End date in YYYY-MM-DD format
+      responses:
+        '200':
+          description: Successful response with all price data
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties:
+                    Open:
+                      type: number
+                    High:
+                      type: number
+                    Low:
+                      type: number
+                    Close:
+                      type: number
+                    Adj_Close:
+                      type: number
+                    Volume:
+                      type: number
+
+  /get-detailed-info/:
+    get:
+      operationId: getDetailedInfo
+      summary: Get detailed information for multiple tickers
+      description: Fetches comprehensive information about the specified tickers including company details, financial metrics, and market data
+      parameters:
+        - name: tickers
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Comma-separated list of stock ticker symbols
+      responses:
+        '200':
+          description: Successful response with detailed information
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  description: Detailed information about the ticker
