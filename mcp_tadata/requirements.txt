@@ -1,0 +1,12 @@
+fastapi==0.109.2
+uvicorn[standard]==0.27.1
+yfinance>=0.1.38
+pandas>=0.24.0
+numpy>=1.15.0
+fastapi-mcp==0.3.4
+python-json-logger>=2.0.0
+starlette>=0.32.0
+httpx>=0.25.0
+# v1.4.0 - Captures request body + raw client_ip for security logging
+tigzig-api-monitor>=1.4.0
+slowapi>=0.1.9
